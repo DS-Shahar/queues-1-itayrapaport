@@ -332,5 +332,226 @@ public class Main {
 	}
 
 	}
+
+	//q19
+	package queue;
+
+public class q_19 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Job t1 = new Job(10,"itay");
+		Job t2 = new Job(11,"ala");
+		Job t3 = new Job(11,"beni");
+		Job t4 = new Job(11,"ala");
+
+		Queue<Job> q = new Queue<>();
+		q.insert(t1);
+		q.insert(t2);
+		q.insert(t3);
+		q.insert(t4);
+		
+		PrintCapableTasks(q, 21);
+	}
+	public static void PrintCapableTasks(Queue<Job> q, int t) {
+	
+	q.insert(null);
+	Job current= q.head();
+	int overall_time= current.getTime();
+	while(overall_time<=t && q.head()!=null) {
+		System.out.println(current.getCode());
+		q.insert(q.remove());
+		current= q.head();
+		overall_time+= current.getTime();
+		
+	}
+	
+	while(q.head()!=null) {
+		q.insert(q.remove());
+	}
+	q.remove();
+	}
+
+	
+
+}
+package queue;
+
+public class Job {
+private String code;
+private int time;
+
+public Job(int time, String code) {
+	this.time= time;
+	this.code= code;
+
+}
+
+public String getCode() {
+	return code;
+}
+
+public void setCode(String code) {
+	this.code = code;
+}
+
+public int getTime() {
+	return time;
+}
+
+public void setTime(int time) {
+	this.time = time;
+}
+
+}
+
+//q21
+package queue;
+
+public class biker {
+private String id;
+private int amount;
+
+public biker(String id, int amount) {
+	this.id= id;
+	this.amount= amount;
+}
+
+public String getId() {
+	return id;
+}
+
+public void setId(String id) {
+	this.id = id;
+}
+
+public int getAmount() {
+	return amount;
+}
+
+public void setAmount(int amount) {
+	this.amount = amount;
+}
+
+}
+
+}
+package queue;
+
+public class q_21 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		biker t1 = new biker("ala",0);
+		biker t2 = new biker("alabb", 11);
+		biker t3 = new biker("beni", 21);
+		biker t4 = new biker("alaaa", 30);
+
+		Queue<biker> q = new Queue<>();
+		q.insert(t1);
+		q.insert(t2);
+		q.insert(t3);
+		q.insert(t4);
+		System.out.println(q);
+		String id= FindFittingBiker(q,0);
+		System.out.println(id);
+		System.out.println(q);
+	}
+	public static String FindFittingBiker(Queue<biker> q, int volume) {
+		String id= "not found";
+		q.insert(null);
+		boolean flag= false;
+		biker current= q.head();
+		
+		while(!flag && q.head()!=null) {
+			if(current.getAmount()>=volume) {
+				id= current.getId();
+				q.remove();
+				current= q.head();
+				flag= true;
+			}
+			else {
+				q.insert(q.remove());
+				current= q.head();
+			}
+		}
+		while(q.head()!=null) {
+			q.insert(q.remove());
+		}
+		q.remove();
+		return id;
+	}
+
+}
+//q22
+package queue;
+
+public class DoubleQueue {
+private Queue<Integer> q_fast;
+private Queue<Integer> q_slowed;
+private int num;
+
+public DoubleQueue(Queue<Integer> q1, Queue<Integer> q2, int num) {
+	this.q_fast= q1;
+	this.q_slowed= q2;
+	this.num= num;
+}
+
+public Queue<Integer> getQ1() {
+	return q_fast;
+}
+
+public void setQ1(Queue<Integer> q1) {
+	this.q_fast = q1;
+}
+
+public Queue<Integer> getQ2() {
+	return q_slowed;
+}
+
+public void setQ2(Queue<Integer> q2) {
+	this.q_slowed = q2;
+}
+
+public int getNum() {
+	return num;
+}
+
+public void setNum(int num) {
+	this.num = num;
+}
+public Queue<Integer> act(int number){
+	if(number==1) {
+		return q_slowed;
+		
+	}
+	else {
+		return q_fast;
+	}
+}
+public void add(int num, int act) {
+	if(act==1) {
+		q_slowed.insert(num);
+	}
+	else {
+		q_fast.insert(num);
+	}
+}
+
+public int remove() {
+	int number= 0;
+	if(num==5) {
+		number= q_slowed.head();
+		q_slowed.remove();
+		setNum(0);
+	}
+	else {
+		number= q_fast.head();
+		q_fast.remove();
+		setNum(num+1);
+	}
+	return number;
+}
+
 }
 
